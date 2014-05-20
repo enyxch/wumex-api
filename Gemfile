@@ -16,3 +16,9 @@ gem 'rails'
 gem 'pg'
 gem 'devise'
 gem 'simple_token_authentication'
+
+# API endpoints, presentation and documentation
+gem 'grape'
+gem "grape-entity"
+gem 'grape-swagger'
+gem 'grape-swagger-ui'
