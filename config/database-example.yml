@@ -1,0 +1,26 @@
+development:
+  adapter: postgresql
+  database: wumex_development
+  encoding: utf8
+  username: dev
+  password:
+  host: 127.0.0.1
+  min_messages: WARNING
+
+production:
+  adapter: postgresql
+  database: wumex_production
+  encoding: utf8
+  username: dev
+  password:
+  host: 127.0.0.1
+  min_messages: WARNING
+
+test:
+  adapter: postgresql
+  database: wumex_test
+  encoding: utf8
+  username: dev
+  password:
+  host: 127.0.0.1
+  min_messages: WARNING
