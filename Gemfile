@@ -14,8 +14,6 @@ end
 
 gem 'rails'
 gem 'pg'
-gem 'devise'
-gem 'simple_token_authentication'
 
 # API endpoints, presenter and documentation
 gem 'grape'
