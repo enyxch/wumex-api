@@ -2,8 +2,7 @@ module API
   module V1
     class Projects < Grape::API
       include API::V1::Defaults
-      version 'v1' # path-based versioning by default
-      format :json # We don't like xml anymore
+      include API::V1::Authorization
 
       resource :projects do
         desc "Return list of projects"
