@@ -6,6 +6,9 @@ module API
 
       resource :projects do
         desc "Return list of projects"
+        params do
+          requires :token, type: String, desc: "Authorization"
+        end
         get do
           Project.all # obviously you never want to call #all here
         end
