@@ -5,7 +5,7 @@ module API
       include API::V1::Authorization
 
       resource :projects do
-        desc "Return list of projects"
+        desc "Return List of Projects for Authorized User"
         params do
           requires :token, type: String, desc: "Authorization"
         end

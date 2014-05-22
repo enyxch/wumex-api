@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   before_create :set_auth_token
+  validates :email, uniqueness: true, presence: true
 
   private
     def set_auth_token
