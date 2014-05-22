@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20140522052352) do
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "user_name"
-    t.string   "auth_token"
+    t.string   "authentication_token"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
