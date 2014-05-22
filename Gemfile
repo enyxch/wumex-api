@@ -12,6 +12,7 @@ group :development, :test do
   gem "minitest-rails"
 end
 
+ruby '2.1.1'
 gem 'rails'
 gem 'pg'
 
