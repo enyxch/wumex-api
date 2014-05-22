@@ -15,6 +15,10 @@ end
 ruby '2.1.1'
 gem 'rails'
 gem 'pg'
+gem 'uglifier'
+gem 'coffee-rails'
+gem 'therubyracer', platforms: :ruby
+gem 'jquery-rails'
 
 # API endpoints, presenter and documentation
 gem 'grape'
