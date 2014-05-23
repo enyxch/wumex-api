@@ -6,10 +6,14 @@ module API
       resource :users do
         desc "Create User Account"
         params do
-          requires :email, type: String, desc: "Email Address"
+          requires :password, type: String
+          requires :email, type: String
+          optional :user_name, type: String
+          optional :first_name, type: String
+          optional :last_name, type: String
         end
         post :register do
-          user = User.create({:email => params[:email]})
+          user = User.create_user(params)
           if user.persisted?
             status(201)
             {
