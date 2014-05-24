@@ -33,12 +33,26 @@ module API
             @user.save #Save the token into the database
             status(200)
             {
-              status: 'ok',
+              status: 'Logged in',
               token: @user.authentication_token
             }
           end
         end
 
+        delete :logout do
+          token = (params[:token] || headers['Authorization-Token'])
+          @user = User.where(authentication_token: token).first
+          if @user.nil?
+            error!({:error => '404', :error_message => "Invalid token."}, 404)
+          else
+            @user.reset_authentication_token!
+            status(200)
+            {
+              status: 'Logged out',
+              token: token
+            }
+          end
+        end
       end
 
     end
