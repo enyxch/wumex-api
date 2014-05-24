@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
-  before_create :set_auth_token
+  #before_create :set_auth_token
   validates :email, uniqueness: true, presence: true
+  devise :database_authenticatable, :token_authenticatable
 
   class << self
     def create_user(params)
@@ -13,13 +14,5 @@ class User < ActiveRecord::Base
         })
     end
   end
-
-  private
-    def set_auth_token
-      return if authentication_token.present?
-
-      begin
-        self.authentication_token = SecureRandom.hex
-      end while self.class.exists?(authentication_token: self.authentication_token)
-    end
+  
 end
