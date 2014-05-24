@@ -3,6 +3,7 @@ module API
     class Base < Grape::API
       mount API::V1::UserRegistration
       mount API::V1::Projects
+      mount API::V1::Session
       add_swagger_documentation base_path: "/api",
                                 api_version: 'v1',
                                 hide_documentation_path: true
