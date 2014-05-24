@@ -13,11 +13,6 @@ module API
         post :login do
           email = params[:email]
           password = params[:password]
-          
-          if email.nil? or password.nil?  # Ensure that both email and password are not nil
-            error!({:error => '400', :error_message => "The request must contain the user email and password."}, 400)
-            return
-          end
 
           @user = User.find_by_email(email.downcase) #Find the User
           if @user.nil? # If user does not exist
