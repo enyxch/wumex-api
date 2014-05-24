@@ -24,3 +24,4 @@ gem 'jquery-rails'
 gem 'grape'
 gem "grape-entity"
 gem 'grape-swagger'
+gem "devise", "~> 3.0.0.rc" 
