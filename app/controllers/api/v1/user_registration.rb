@@ -17,8 +17,7 @@ module API
           if user.persisted?
             status(201)
             {
-              status: 'ok',
-              token: user.authentication_token
+              status: 'ok'
             }
           else
             error!({:error => '422', :error_message => user.errors.full_messages.to_s}, 422)
