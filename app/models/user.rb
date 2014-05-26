@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  #before_create :set_auth_token
   validates :email, uniqueness: true, presence: true
   devise :database_authenticatable, :token_authenticatable
 

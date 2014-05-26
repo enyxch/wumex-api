@@ -182,7 +182,7 @@ DEPENDENCIES
   coffee-rails
   dalli
   debugger
-  devise (~> 3.0.0.rc)
+  devise (~> 3.0.0)
   grape
   grape-entity
   grape-swagger
