@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
+
+  has_and_belongs_to_many :projects
+
   validates :email, uniqueness: true, presence: true
+
   devise :database_authenticatable, :token_authenticatable
 
   class << self
@@ -13,5 +17,5 @@ class User < ActiveRecord::Base
         })
     end
   end
-  
+
 end
