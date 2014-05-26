@@ -1,10 +1,10 @@
 module API
   module V1
-    class Session < Grape::API
+    class Sessions < Grape::API
       include API::V1::Defaults
       
-      resource :session do
-        desc "Authenticate user"
+      resource :sessions do
+        desc "Create sessions"
         params do
           requires :password, type: String
           requires :email, type: String 
@@ -26,14 +26,18 @@ module API
           else
             user.ensure_authentication_token!
             user.save
-            status(200)
+            status(201)
             {
               status: 'ok',
               token: user.authentication_token
             }
           end
         end
-
+        
+        desc "Destroy sessions"
+        params do
+          requires :token, type: String, desc: "Authorization"
+        end
         delete :logout do
           token = (params[:token] || headers['Authorization-Token'])
           user = User.where(authentication_token: token).first
