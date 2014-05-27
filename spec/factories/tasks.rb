@@ -12,5 +12,11 @@ FactoryGirl.define do
     label
     project
     user
+
+    factory :task_with_document do
+      after(:create) do |task|
+        create(:document, task_id: task.id)
+      end
+    end
   end
 end
