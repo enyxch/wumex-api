@@ -9,12 +9,8 @@ end
 group :development, :test do
   gem 'debugger'
   gem 'thin'
-  gem "minitest-rails"
   gem 'rspec-rails'
   gem "factory_girl_rails"
-end
-
-group :test do
   gem 'faker'
 end
 
@@ -30,4 +26,4 @@ gem 'jquery-rails'
 gem 'grape'
 gem "grape-entity"
 gem 'grape-swagger'
-gem "devise", "~> 3.0.0" 
+gem "devise", "~> 3.0.0"
