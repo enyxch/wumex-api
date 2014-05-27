@@ -1,7 +1,7 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
+require 'faker'
 FactoryGirl.define do
   factory :label do
-    name Faker::Lorem.word
+    name {Faker::Lorem.word}
+    project
   end
 end
