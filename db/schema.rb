@@ -26,12 +26,17 @@ ActiveRecord::Schema.define(version: 20140526102150) do
     t.datetime "updated_at"
   end
 
+  add_index "documents", ["project_id"], name: "index_documents_on_project_id", using: :btree
+  add_index "documents", ["task_id"], name: "index_documents_on_task_id", using: :btree
+
   create_table "labels", force: true do |t|
     t.string   "name"
     t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "labels", ["project_id"], name: "index_labels_on_project_id", using: :btree
 
   create_table "notes", force: true do |t|
     t.string   "name"
@@ -42,6 +47,10 @@ ActiveRecord::Schema.define(version: 20140526102150) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "notes", ["meeting_id"], name: "index_notes_on_meeting_id", using: :btree
+  add_index "notes", ["project_id"], name: "index_notes_on_project_id", using: :btree
+  add_index "notes", ["task_id"], name: "index_notes_on_task_id", using: :btree
 
   create_table "projects", force: true do |t|
     t.string   "title"
@@ -68,6 +77,10 @@ ActiveRecord::Schema.define(version: 20140526102150) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tasks", ["label_id"], name: "index_tasks_on_label_id", using: :btree
+  add_index "tasks", ["project_id"], name: "index_tasks_on_project_id", using: :btree
+  add_index "tasks", ["user_id"], name: "index_tasks_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email"

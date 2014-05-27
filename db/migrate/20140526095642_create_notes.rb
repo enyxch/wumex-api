@@ -9,5 +9,10 @@ class CreateNotes < ActiveRecord::Migration
 
       t.timestamps
     end
+
+  add_index :notes, :project_id
+  add_index :notes, :task_id
+  add_index :notes, :meeting_id
+
   end
 end

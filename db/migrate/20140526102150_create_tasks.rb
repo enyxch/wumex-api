@@ -16,5 +16,10 @@ class CreateTasks < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :tasks, :project_id
+    add_index :tasks, :label_id
+    add_index :tasks, :user_id
+
   end
 end
