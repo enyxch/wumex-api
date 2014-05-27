@@ -14,6 +14,10 @@ group :development, :test do
   gem "factory_girl_rails"
 end
 
+group :test do
+  gem 'faker'
+end
+
 ruby '2.1.1'
 gem 'rails'
 gem 'pg'
