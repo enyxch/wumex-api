@@ -37,10 +37,10 @@ module API
         desc "Authorize User can delete Projects"
         params do
           requires :token, type: String, desc: "Authorization"
-          requires :id, type: Integer
+          requires :project_id, type: Integer
         end
         delete :delete do
-          project = current_user.projects.find_by_id(params[:id])
+          project = current_user.projects.find_by_id(params[:project_id])
           return error!({:error => '4012', :error_message => "Unauthorized"}, 401) unless project
           if project.destroy
             status(200)
@@ -53,6 +53,7 @@ module API
         end
         
       end
+      
     end
   end
 end

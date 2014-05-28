@@ -4,6 +4,8 @@ module API
       mount API::V1::UserRegistration
       mount API::V1::Projects
       mount API::V1::Sessions
+      mount API::V1::Documents
+
       add_swagger_documentation base_path: "/api",
                                 api_version: 'v1',
                                 hide_documentation_path: true
