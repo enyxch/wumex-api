@@ -1,69 +1,69 @@
 module API
   module V1
-    class Documents < Grape::API
+    class Labels < Grape::API
       include API::V1::Defaults
       include API::V1::Authorization
       helpers API::V1::ApiHelpers
       
-      resource :documents do
-        desc "Authorize User can create Documents"
+      resource :labels do
+        desc "Authorize User can create Labels"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :name, type: String
-          optional :document_type, type: String
-          optional :upload_url, type: String
           optional :project_id, type: Integer
           optional :task_id, type: Integer
         end
         post :create do
           return error!({:error => '4014', :error_message => "Project or Task can't be blank"}, 401) unless (params[:project_id] or params[:task_id])
+          return error!({:error => '4014', :error_message => "Input Project or Task at a time"}, 401) if (params[:project_id] and params[:task_id])
           
-          task = project = nil
+          task = project = label = nil
           if params[:project_id]
             project = current_user.projects.find_by_id(params[:project_id])
             return error!({:error => '4012', :error_message => "Unauthorized project"}, 401) unless project
+            label = project.labels.create(:name => params[:name])
           end
           
           if params[:task_id]
             task = Task.where("id=? and user_id=?", params[:task_id], current_user.id).first
             return error!({:error => '4013', :error_message => "Unauthorized task"}, 401) unless task
+            label = task.labels.create(:name => params[:name])
           end
 
-          document = Document.create_document(params, current_user, project, task)
-          if document.persisted?
+          if label.persisted?
             status(201)
             {
               status: 'ok'
             }
           else
-            error!({:error => '4221', :error_message => document.errors.full_messages.to_s}, 422)
+            error!({:error => '4222', :error_message => label.errors.full_messages.to_s}, 422)
           end
         end
         
-        desc "Authorize User can delete Documents"
+        desc "Authorize User can delete Labels"
         params do
           requires :token, type: String, desc: "Authorization"
-          requires :document_id, type: Integer
+          requires :label_id, type: Integer
         end
         delete :delete do
-          document = Document.find_by_id(params[:document_id])
-          return error!({:error => '4042', :error_message => "Document not found"}, 404) unless document
+          label = Label.find_by_id(params[:label_id])
+          return error!({:error => '4043', :error_message => "Label not found"}, 404) unless label
           users=[]
-          users << (document.project.try(:users) || []) << (document.task.try(:user) || [])
-          return error!({:error => '4042', :error_message => "Document not found"}, 404) unless users.flatten.include? current_user
+          users << (label.project.try(:users) || []) << (label.tasks.select{|task| task if task.user_id.present? }.map(&:user)  || [])
+          return error!({:error => '4043', :error_message => "Label not found"}, 404) unless users.flatten.include? current_user
           
-          if document.destroy
+          if label.destroy
             status(200)
             {
               status: 'ok'
             }
           else
-            error!({:error => '4221', :error_message => document.errors.full_messages.to_s}, 422)
+            error!({:error => '4222', :error_message => label.errors.full_messages.to_s}, 422)
           end
         end
         
-      end 
-      
+      end
+    
     end
   end
 end
