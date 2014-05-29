@@ -50,7 +50,7 @@ module API
           return error!({:error => '4042', :error_message => "Document not found"}, 404) unless document
           users=[]
           users << (document.project.try(:users) || []) << (document.task.try(:user) || [])
-          return error!({:error => '4042', :error_message => "Document not found"}, 404) unless users.flatten.include? current_user
+          return error!({:error => '4014', :error_message => "Unauthorized document"}, 401) unless users.flatten.include? current_user
           
           if document.destroy
             status(200)
