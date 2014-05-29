@@ -6,5 +6,8 @@ class CreateLabels < ActiveRecord::Migration
 
       t.timestamps
     end
+
+  add_index :labels, :project_id
+
   end
 end

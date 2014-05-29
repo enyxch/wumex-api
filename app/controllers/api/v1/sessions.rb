@@ -2,14 +2,14 @@ module API
   module V1
     class Sessions < Grape::API
       include API::V1::Defaults
-      
+
       resource :sessions do
         desc "Create sessions"
         params do
           requires :password, type: String
-          requires :email, type: String 
+          requires :email, type: String
         end
-        
+
         post :login do
           email = params[:email]
           password = params[:password]
@@ -33,7 +33,7 @@ module API
             }
           end
         end
-        
+
         desc "Destroy sessions"
         params do
           requires :token, type: String, desc: "Authorization"
@@ -56,4 +56,4 @@ module API
 
     end
   end
-end  
+end
