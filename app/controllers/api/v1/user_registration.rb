@@ -19,7 +19,7 @@ module API
             user.save
             status(201)
             {
-              status: 'ok'
+              status: 'ok',
               token: user.authentication_token
             }
           else
