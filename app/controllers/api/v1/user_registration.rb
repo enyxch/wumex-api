@@ -15,9 +15,12 @@ module API
         post :register do
           user = User.create_user(params)
           if user.persisted?
+            user.ensure_authentication_token!
+            user.save
             status(201)
             {
               status: 'ok'
+              token: user.authentication_token
             }
           else
             error!({:error => '422', :error_message => user.errors.full_messages.to_s}, 422)
