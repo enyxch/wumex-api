@@ -14,6 +14,20 @@ module API
           current_user.projects
         end
 
+        desc "Show Project"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          requires :project_id, type: Integer
+        end
+        get :project do
+          project = current_user.projects.where(:id => params[:project_id]).first
+          if project.present?
+            present project, with: Project::Entity
+          else
+            error!({:error => '4021', :error_message => "Could not find project"}, 422)
+          end
+        end
+
         desc "Create Project"
         params do
           requires :token, type: String, desc: "Authorization"
@@ -34,6 +48,31 @@ module API
           end
         end
 
+        desc "Update Project"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          requires :project_id, type: Integer
+          optional :title, type: String
+          optional :description, type: String
+          optional :deadline, type: Date
+          optional :percent_done, type: Integer
+        end
+        put :update do
+          project = current_user.projects.where(:id => params[:project_id]).first
+          if project.present?
+            if project.update_params(params)
+              status(201)
+              {
+                status: 'ok'
+              }
+            else
+              error!({:error => '4220', :error_message => project.errors.full_messages.to_s}, 422)
+            end
+          else
+            error!({:error => '4021', :error_message => "Could not find project"}, 422)
+          end
+        end
+
         desc "Delete Project"
         params do
           requires :token, type: String, desc: "Authorization"
@@ -49,20 +88,6 @@ module API
             }
           else
             error!({:error => '4220', :error_message => project.errors.full_messages.to_s}, 422)
-          end
-        end
-
-        desc "Show Project"
-        params do
-          requires :token, type: String, desc: "Authorization"
-          requires :project_id, type: Integer
-        end
-        get :project do
-          project = current_user.projects.where(:id => params[:project_id])
-          if project.present?
-            present project, with: Project::Entity
-          else
-            error!({:error => '4021', :error_message => "Could not find project"}, 422)
           end
         end
 

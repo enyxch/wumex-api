@@ -4,6 +4,8 @@ class Project < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
+  validates :title, :presence => true
+
   has_many :notes
   has_many :tasks
   has_many :documents
@@ -18,6 +20,14 @@ class Project < ActiveRecord::Base
         :percent_done => params[:percent_done]
       })
     end
+  end
+
+  def update_params(params)
+    update_attributes({ :title => params[:title],
+      :description => params[:description],
+      :deadline => params[:deadline],
+      :percent_done => params[:percent_done]
+    })
   end
 
 end
