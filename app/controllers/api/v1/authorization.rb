@@ -7,7 +7,7 @@ module API
         # HTTP header based authentication
         before do
           unless @user = User.where(authentication_token: (params[:token] || headers['Authorization-Token'])).first
-            error!({:error_code => ErrorList::NOT_AUTHORIZED, :error_message => "Unauthorized"}, 401)
+            error!({:error_code => ErrorList::USER_NOT_AUTHORIZED, :error_message => "Unauthorized"}, 401)
           end
         end
       end

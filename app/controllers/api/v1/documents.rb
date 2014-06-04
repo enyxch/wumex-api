@@ -16,7 +16,7 @@ module API
           optional :task_id, type: Integer
         end
         post :create do
-          return error!({:error_code => ErrorList::NOT_CREATED, :error_message => "Project or Task can't be blank"}, 401) unless (params[:project_id] or params[:task_id])
+          return error!({:error_code => ErrorList::NO_PROJECT_OR_TASK, :error_message => "Project or Task can't be blank"}, 401) unless (params[:project_id] or params[:task_id])
 
           task = project = nil
           if params[:project_id]
