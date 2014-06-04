@@ -11,8 +11,8 @@ module API
           requires :token, type: String, desc: "Authorization"
         end
         get :user do
-          if current_user
-            present current_user, with: User::Entity
+          if user = current_user
+            present user, with: User::Entity
           else
             error!({:error => '422', :error_message => user.errors.full_messages.to_s}, 422)
           end
