@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  include UserRepresenters
+
   has_and_belongs_to_many :projects
 
   validates :email, uniqueness: true, presence: true
