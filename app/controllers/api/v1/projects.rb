@@ -6,7 +6,7 @@ module API
       helpers API::V1::ApiHelpers
 
       resource :projects do
-        desc "Return List of Projects for Authorized User"
+        desc "List Projects"
         params do
           requires :token, type: String, desc: "Authorization"
         end
@@ -14,7 +14,7 @@ module API
           current_user.projects
         end
 
-        desc "Authorized User can create Projects"
+        desc "Create Project"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :title, type: String
@@ -34,7 +34,7 @@ module API
           end
         end
 
-        desc "Authorized User can delete Projects"
+        desc "Delete Project"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :project_id, type: Integer
@@ -52,13 +52,14 @@ module API
           end
         end
 
-        desc "View Project Information"
+        desc "Show Project"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :project_id, type: Integer
         end
         get :project do
-          if project = current_user.projects.where(:id => params[:project_id])
+          project = current_user.projects.where(:id => params[:project_id])
+          if project.present?
             present project, with: Project::Entity
           else
             error!({:error => '4021', :error_message => "Could not find project"}, 422)
