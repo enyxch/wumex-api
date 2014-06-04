@@ -24,7 +24,7 @@ module API
               token: user.authentication_token
             }
           else
-            error!({:error => ErrorList::NOT_CREATED, :error_message => user.errors.full_messages.to_s}, 422)
+            error!({:error_code => ErrorList::NOT_CREATED, :error_message => user.errors.full_messages.to_s}, 422)
           end
         end
       end

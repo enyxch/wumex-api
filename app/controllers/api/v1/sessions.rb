@@ -16,12 +16,12 @@ module API
 
           user = User.find_by_email(email.downcase)
           if user.nil?
-            error!({:error => ErrorList::NOT_AUTHORIZED, :error_message => "Invalid email or password."}, 401)
+            error!({:error_code => ErrorList::NOT_AUTHORIZED, :error_message => "Invalid email or password."}, 401)
             return
           end
 
           if !user.valid_password?(password)
-            error!({:error => ErrorList::NOT_AUTHORIZED, :error_message => "Invalid email or password."}, 401)
+            error!({:error_code => ErrorList::NOT_AUTHORIZED, :error_message => "Invalid email or password."}, 401)
             return
           else
             user.ensure_authentication_token!
@@ -42,7 +42,7 @@ module API
           token = (params[:token] || headers['Authorization-Token'])
           user = User.where(authentication_token: token).first
           if user.nil?
-            error!({:error => ErrorList::NOT_AUTHORIZED, :error_message => "Invalid token."}, 404)
+            error!({:error_code => ErrorList::NOT_AUTHORIZED, :error_message => "Invalid token."}, 404)
           else
             user.reset_authentication_token!
             status(200)

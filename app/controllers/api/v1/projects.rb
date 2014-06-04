@@ -24,7 +24,7 @@ module API
           if project.present?
             present project, with: Project::Entity
           else
-            error!({:error => ErrorList::NOT_FOUND, :error_message => "Could not find project"}, 422)
+            error!({:error_code => ErrorList::NOT_FOUND, :error_message => "Could not find project"}, 422)
           end
         end
 
@@ -44,7 +44,7 @@ module API
               status: 'ok'
             }
           else
-            error!({:error => ErrorList::NOT_CREATED, :error_message => project.errors.full_messages.to_s}, 422)
+            error!({:error_code => ErrorList::NOT_CREATED, :error_message => project.errors.full_messages.to_s}, 422)
           end
         end
 
@@ -66,10 +66,10 @@ module API
                 status: 'ok'
               }
             else
-              error!({:error => ErrorList::NOT_UPDATED, :error_message => project.errors.full_messages.to_s}, 422)
+              error!({:error_code => ErrorList::NOT_UPDATED, :error_message => project.errors.full_messages.to_s}, 422)
             end
           else
-            error!({:error => ErrorList::NOT_FOUND, :error_message => "Could not find project"}, 422)
+            error!({:error_code => ErrorList::NOT_FOUND, :error_message => "Could not find project"}, 422)
           end
         end
 
@@ -80,14 +80,14 @@ module API
         end
         delete :delete do
           project = current_user.projects.find_by_id(params[:project_id])
-          return error!({:error => ErrorList::NOT_AUTHORIZED, :error_message => "Unauthorized"}, 401) unless project
+          return error!({:error_code => ErrorList::NOT_AUTHORIZED, :error_message => "Unauthorized"}, 401) unless project
           if project.destroy
             status(200)
             {
               status: 'ok'
             }
           else
-            error!({:error => ErrorList::NOT_DESTROYED, :error_message => project.errors.full_messages.to_s}, 422)
+            error!({:error_code => ErrorList::NOT_DESTROYED, :error_message => project.errors.full_messages.to_s}, 422)
           end
         end
 
