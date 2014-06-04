@@ -4,7 +4,7 @@ module API
       include API::V1::Defaults
       include API::V1::Authorization
       helpers API::V1::ApiHelpers
-      
+
       resource :projects do
         desc "Return List of Projects for Authorized User"
         params do
@@ -13,8 +13,8 @@ module API
         get do
           current_user.projects
         end
-      
-        desc "Authorize User can create Projects"
+
+        desc "Authorized User can create Projects"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :title, type: String
@@ -33,8 +33,8 @@ module API
             error!({:error => '4220', :error_message => project.errors.full_messages.to_s}, 422)
           end
         end
-        
-        desc "Authorize User can delete Projects"
+
+        desc "Authorized User can delete Projects"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :project_id, type: Integer
@@ -51,9 +51,22 @@ module API
             error!({:error => '4220', :error_message => project.errors.full_messages.to_s}, 422)
           end
         end
-        
+
+        desc "View Project Information"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          requires :project_id, type: Integer
+        end
+        get :project do
+          if project = current_user.projects.where(:id => params[:project_id])
+            present project, with: Project::Entity
+          else
+            error!({:error => '4021', :error_message => "Could not find project"}, 422)
+          end
+        end
+
       end
-      
+
     end
   end
 end

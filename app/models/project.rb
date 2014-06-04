@@ -1,5 +1,7 @@
 class Project < ActiveRecord::Base
 
+  include ProjectRepresenters
+
   has_and_belongs_to_many :users
 
   has_many :notes
@@ -7,7 +9,7 @@ class Project < ActiveRecord::Base
   has_many :documents
   has_many :meetings
   has_many :labels
-  
+
   class << self
     def create_project(user, params)
       user.projects.create({ :title => params[:title],
