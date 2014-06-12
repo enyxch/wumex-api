@@ -6,6 +6,31 @@ module API
       helpers API::V1::ApiHelpers
 
       resource :documents do
+        desc "List Documents"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          optional :project_id, type: Integer
+          optional :task_id, type: Integer
+        end
+        get do
+          return error!({:error_code => ErrorList::NO_PROJECT_OR_TASK, :error_message => "Project or Task can't be blank"}, 422) unless (params[:project_id] or params[:task_id])
+          
+          task = project = documents = nil
+          if params[:project_id]
+            project = current_user.projects.find_by_id(params[:project_id])
+            return error!({:error_code => ErrorList::PROJECT_NOT_FOUND, :error_message => "Could not find project"}, 404) unless project
+            documents = project.documents
+          end
+
+          if params[:task_id]
+            task = Task.where("id=? and user_id=?", params[:task_id], current_user.id).first
+            return error!({:error_code => ErrorList::TASK_NOT_FOUND, :error_message => "Could not find task"}, 404) unless task
+            documents = task.documents
+          end
+          
+          documents
+        end
+        
         desc "Authorize User can create Documents"
         params do
           requires :token, type: String, desc: "Authorization"
