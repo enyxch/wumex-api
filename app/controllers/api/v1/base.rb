@@ -7,6 +7,7 @@ module API
       mount API::V1::Projects
       mount API::V1::Documents
       mount API::V1::Labels
+      mount API::V1::Tasks
 
       add_swagger_documentation base_path: "/api",
                                 api_version: 'v1',

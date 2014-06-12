@@ -9,6 +9,8 @@ module ErrorList
     NO_PROJECT_OR_TASK = '4006',
     PROJECT_NOT_FOUND = '4007',
     TASK_NOT_FOUND = '4008',
+    TASK_NOT_CREATED = '4009',
+    TASK_NOT_DESTROYED = '4010',
   ]
 
 end
