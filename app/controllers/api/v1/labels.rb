@@ -6,6 +6,17 @@ module API
       helpers API::V1::ApiHelpers
 
       resource :labels do
+        desc "List Labels"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          requires :project_id, type: Integer
+        end
+        get do
+          project = current_user.projects.find_by_id(params[:project_id])
+          return error!({:error_code => ErrorList::PROJECT_NOT_FOUND, :error_message => "Could not find project"}, 404) unless project
+          project.labels
+        end
+      
         desc "Authorize User can create Labels"
         params do
           requires :token, type: String, desc: "Authorization"
