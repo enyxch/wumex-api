@@ -16,12 +16,13 @@ module API
           return error!({:error_code => ErrorList::PROJECT_NOT_FOUND, :error_message => "Could not find project"}, 404) unless project
           project.labels
         end
-      
+
         desc "Authorize User can create Labels"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :name, type: String
           requires :project_id, type: Integer
+          optional :position, type: Integer
         end
         post :create do
           project = current_user.projects.find_by_id(params[:project_id])
