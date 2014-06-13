@@ -11,6 +11,7 @@ module ErrorList
     TASK_NOT_FOUND = '4008',
     TASK_NOT_CREATED = '4009',
     TASK_NOT_DESTROYED = '4010',
+    TASK_NOT_UPDATED = '4010',
   ]
 
 end
