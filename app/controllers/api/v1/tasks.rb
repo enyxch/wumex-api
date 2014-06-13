@@ -16,14 +16,15 @@ module API
           return error!({:error_code => ErrorList::PROJECT_NOT_FOUND, :error_message => "Could not find project"}, 404) unless project
           project.tasks
         end
-      
+
         desc "Authorize User can create Tasks"
         params do
           requires :token, type: String, desc: "Authorization"
           requires :name, type: String
           requires :project_id, type: Integer
           optional :description, type: String
-          optional :deadline, type: Date
+          optional :start_date, type: Date
+          optional :end_date, type: Date
           optional :task_type, type: String
           optional :priority, type: String
           optional :state, type: String
@@ -36,7 +37,7 @@ module API
           project = current_user.projects.find_by_id(params[:project_id])
           return error!({:error_code => ErrorList::PROJECT_NOT_FOUND, :error_message => "Could not find project"}, 404) unless project
           task = Task.create_task(params, current_user.id, project)
-          
+
           if task.persisted?
             status(201)
             {
@@ -58,7 +59,7 @@ module API
           users=[]
           users << (task.project.try(:users) || [])
           return error!({:error_code => ErrorList::TASK_NOT_FOUND, :error_message => "Could not find task"}, 404) unless users.flatten.include? current_user
-          
+
           if task.destroy
             status(200)
             {

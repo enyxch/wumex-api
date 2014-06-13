@@ -5,12 +5,13 @@ class Task < ActiveRecord::Base
 
   has_and_belongs_to_many :labels
   has_many :documents
-  
+
   class << self
     def create_task(params, user_id, project)
       project.tasks.create({ :name => params[:name],
         :description => params[:description],
-        :deadline => params[:deadline],
+        :start_date => params[:start_date],
+        :end_date => params[:end_date],
         :task_type => params[:task_type],
         :priority => params[:priority],
         :state => params[:state],
@@ -22,5 +23,5 @@ class Task < ActiveRecord::Base
       })
     end
   end
-  
+
 end
