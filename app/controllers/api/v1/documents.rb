@@ -58,6 +58,7 @@ module API
           if document.persisted?
             status(201)
             {
+              id: document.id,
               status: 'ok'
             }
           else

@@ -41,6 +41,7 @@ module API
           if project.persisted?
             status(201)
             {
+              id: project.id,
               status: 'ok'
             }
           else

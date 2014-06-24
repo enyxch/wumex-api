@@ -27,11 +27,12 @@ module API
         post :create do
           project = current_user.projects.find_by_id(params[:project_id])
           return error!({:error_code => ErrorList::NOT_AUTHORIZED, :error_message => "Unauthorized project"}, 401) unless project
-          label = project.labels.create(:name => params[:name])
+          label = project.labels.create(:name => params[:name], :position => params[:position])
 
           if label.persisted?
             status(201)
             {
+              id: label.id,
               status: 'ok'
             }
           else
@@ -58,6 +59,30 @@ module API
             }
           else
             error!({:error =>ErrorList::NOT_DESTROYED, :error_message => label.errors.full_messages.to_s}, 422)
+          end
+        end
+
+        desc "Update Label"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          requires :label_id, type: Integer
+          requires :name, type: String
+          requires :project_id, type: Integer
+          optional :position, type: Integer
+        end
+        put :update do
+          label = Label.find_by_id(params[:label_id])
+          if label.present?
+            if label.update_params(params)
+              status(201)
+              {
+                status: 'ok'
+              }
+            else
+              error!({:error_code => ErrorList::LABEL_NOT_UPDATED, :error_message => label.errors.full_messages.to_s}, 422)
+            end
+          else
+            error!({:error_code => ErrorList::LABEL_NOT_FOUND, :error_message => "Could not find label"}, 422)
           end
         end
 
