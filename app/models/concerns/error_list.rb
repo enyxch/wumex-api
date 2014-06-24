@@ -16,6 +16,7 @@ module ErrorList
     LABEL_NOT_CREATED = '4012',
     LABEL_NOT_DESTROYED = '4013',
     LABEL_NOT_UPDATED = '4014',
+    NOT_AUTHORIZED = '4015',
   ]
 
 end
