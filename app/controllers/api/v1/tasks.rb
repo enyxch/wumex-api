@@ -28,8 +28,8 @@ module API
           optional :task_type, type: String
           optional :priority, type: String
           optional :state, type: String
-          optional :time_spent, type: String
-          optional :time_estimated, type: String
+          optional :time_spent, type: Integer
+          optional :time_estimated, type: Integer
           optional :depends_on_task_id, type: String
           optional :label_id, type: Integer
         end
@@ -60,8 +60,8 @@ module API
           optional :task_type, type: String
           optional :priority, type: String
           optional :state, type: String
-          optional :time_spent, type: String
-          optional :time_estimated, type: String
+          optional :time_spent, type: Integer
+          optional :time_estimated, type: Integer
           optional :depends_on_task_id, type: String
           optional :label_id, type: Integer
         end
