@@ -32,6 +32,7 @@ module API
           if label.persisted?
             status(201)
             {
+              id: label.id,
               status: 'ok'
             }
           else

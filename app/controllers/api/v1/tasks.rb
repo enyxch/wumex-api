@@ -41,6 +41,7 @@ module API
           if task.persisted?
             status(201)
             {
+              id: task.id,
               status: 'ok'
             }
           else
