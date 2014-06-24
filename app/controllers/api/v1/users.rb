@@ -13,6 +13,21 @@ module API
         get :user do
           present current_user, with: User::Entity
         end
+        
+        desc "Search Users"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          requires :search
+        end
+        get :search_users do
+          users = User.where("email like :search OR user_name like :search OR first_name like :search OR last_name like :search", { :search => "%#{params[:search]}%"} )
+          if users.present?
+            present users, with: User::Entity
+          else
+            error!({:error_code => ErrorList::NOT_FOUND, :error_message => "No record found"}, 422)
+          end
+        end
+        
       end
 
     end
