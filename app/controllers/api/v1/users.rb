@@ -21,11 +21,7 @@ module API
         end
         get :search_users do
           users = User.where("email like :search OR user_name like :search OR first_name like :search OR last_name like :search", { :search => "%#{params[:search]}%"} )
-          if users.present?
-            present users, with: User::Entity
-          else
-            error!({:error_code => ErrorList::NOT_FOUND, :error_message => "No record found"}, 422)
-          end
+          present users, with: User::Entity
         end
         
       end
