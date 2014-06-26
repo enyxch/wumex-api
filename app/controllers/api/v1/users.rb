@@ -24,6 +24,21 @@ module API
           present users, with: User::Entity
         end
         
+        desc "Search Users by Email addresses"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          group :search_emails
+        end
+        get :search_users_by_email_addresses do
+          search_results = []
+          emails = eval(params[:search_emails]).map {|email| email.delete(" ")}
+          emails.each do |email|
+            user = User.where("lower(email) like ?", email.downcase).first
+            search_results << [user.id, user.email] if user
+          end
+          search_results
+        end
+        
       end
 
     end
