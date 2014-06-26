@@ -20,7 +20,7 @@ module API
           requires :search
         end
         get :search_users do
-          users = User.where("email like :search OR user_name like :search OR first_name like :search OR last_name like :search", { :search => "%#{params[:search]}%"} )
+          users = User.where("email like :search OR user_name like :search OR first_name like :search OR last_name like :search", { :search => "%#{params[:search]}%".downcase} )
           present users, with: User::Entity
         end
         
