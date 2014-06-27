@@ -58,6 +58,25 @@ module API
           end
         end
         
+        desc "Decline Invitations"
+        params do
+          requires :token, type: String, desc: "Authorization"
+          requires :invitation_id, type: Integer
+        end
+        get :decline_invitation do
+          invitation = current_user.invitations.get_invitation(params[:invitation_id]).first
+          return error!({:error_code => ErrorList::INVITATION_NOT_FOUND, :error_message => "Could not find invitation"}, 404) unless invitation
+          
+          if invitation.destroy
+            status(200)
+            {
+              status: 'ok'
+            }
+          else
+            error!({:error_code => ErrorList::INVITATION_NOT_DESTROYED, :error_message => invitation.errors.full_messages.to_s}, 422)
+          end
+        end
+        
       end
 
     end
