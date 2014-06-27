@@ -11,7 +11,9 @@ class Project < ActiveRecord::Base
   has_many :documents
   has_many :meetings
   has_many :labels
-
+  
+  scope :get_project, ->(id) { where(:id => id) }
+  
   class << self
     def create_project(user, params)
       user.projects.create({ :title => params[:title],
