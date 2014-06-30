@@ -6,6 +6,14 @@ module API
       helpers API::V1::ApiHelpers
 
       resource :invitations do
+        desc "List Invitations"
+        params do
+          requires :token, type: String, desc: "Authorization"
+        end
+        get :list_invitations do
+          current_user.invitations
+        end
+      
         desc "Authorize User can create Invitations"
         params do
           requires :token, type: String, desc: "Authorization"
@@ -37,7 +45,7 @@ module API
           requires :token, type: String, desc: "Authorization"
           requires :invitation_id, type: Integer
         end
-        get :accept_invitation do
+        put :accept_invitation do
           invitation = current_user.invitations.get_invitation(params[:invitation_id]).first
           return error!({:error_code => ErrorList::INVITATION_NOT_FOUND, :error_message => "Could not find invitation"}, 404) unless invitation
           
@@ -63,7 +71,7 @@ module API
           requires :token, type: String, desc: "Authorization"
           requires :invitation_id, type: Integer
         end
-        get :decline_invitation do
+        delete :decline_invitation do
           invitation = current_user.invitations.get_invitation(params[:invitation_id]).first
           return error!({:error_code => ErrorList::INVITATION_NOT_FOUND, :error_message => "Could not find invitation"}, 404) unless invitation
           
