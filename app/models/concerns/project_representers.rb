@@ -8,6 +8,7 @@ module ProjectRepresenters
     expose :description
     expose :deadline
     expose :percent_done
+    expose :owner_id
   end
 
 end

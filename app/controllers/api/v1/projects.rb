@@ -11,7 +11,7 @@ module API
           requires :token, type: String, desc: "Authorization"
         end
         get do
-          current_user.projects
+          present current_user.projects, with: Project::Entity
         end
 
         desc "Show Project"

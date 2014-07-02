@@ -11,6 +11,7 @@ class Project < ActiveRecord::Base
   has_many :documents
   has_many :meetings
   has_many :labels
+  belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
   
   scope :get_project, ->(id) { where(:id => id) }
   
@@ -19,7 +20,8 @@ class Project < ActiveRecord::Base
       user.projects.create({ :title => params[:title],
         :description => params[:description],
         :deadline => params[:deadline],
-        :percent_done => params[:percent_done]
+        :percent_done => params[:percent_done],
+        :owner_id => user.id
       })
     end
   end
